@@ -1,25 +1,48 @@
 import { App } from "@tinyhttp/app";
-import { send } from "@tinyhttp/send";
 import serveStatic from "serve-static";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
+import { join } from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
 dotenv.config();
 
-const app = new App();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-// Serve static files from the "public" directory
-app.use(serveStatic("public"));
+const app = new App();
+app.use("/styles", serveStatic(join(__dirname, "../styles")));
+app.use("/scripts", serveStatic(join(__dirname, "../scripts")));
 
 const apiKey = process.env.API_KEY;
 
 app.get("/", (req, res) => {
-  send(req, res, "public/index.html");
+  console.log("Route handler for '/' is being called");
+  console.log("searching for index");
+  try {
+    res.sendFile(join(__dirname, "../index.html"));
+    console.log("index.html has been sent");
+  } catch (error) {
+    console.log("An error occurred while trying to send index.html:", error);
+  }
 });
 
-app.get("/data", async (req, res) => {
+app.get("/movies", async (req, res) => {
+  fetchDataForType("movies", res);
+});
+
+app.get("/series", async (req, res) => {
+  fetchDataForType("series", res);
+});
+
+app.get("/all", async (req, res) => {
+  fetchDataForType("all", res);
+});
+
+async function fetchDataForType(type, res) {
   try {
     const movies = [];
-    const type = req.query.type;
     for (let page = 1; page <= 5; page++) {
       let url = `https://api.themoviedb.org/3/tv/top_rated?api_key=${apiKey}&page=${page}`;
       if (type === "series") {
@@ -38,8 +61,9 @@ app.get("/data", async (req, res) => {
     }
     res.json(movies);
   } catch (error) {
-    res.status(500).send(error.message);
+    console.log("An error occurred while trying to fetch data:", error);
+    res.status(500).send("An error occurred while trying to fetch data.");
   }
-});
+}
 
-app.listen(3000, () => console.log("Started on http://localhost:3000/data"));
+app.listen(3000, () => console.log("Started on http://localhost:3000/home"));
