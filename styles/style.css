@@ -26,6 +26,7 @@ h1 {
 .navContainer button {
   margin: 1em;
   padding: 0 1em;
+  cursor: pointer;
 }
 
 #list {
