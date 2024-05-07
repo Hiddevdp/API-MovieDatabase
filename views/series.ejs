@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending Movies and tv shows</title>
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+    <h1>Trending Movies and tv shows</h1>
+    <div class="navContainer">
+        <a href="/series">
+            <button id="series">Series</button>
+        </a>
+        <a href="/movies">
+            <button id="movies">Movies</button>
+        </a>
+        <a href="/all">
+            <button id="all">All
+            </button>
+        </a>
+    </div>
+    <div id="list">
+        <% series.forEach(serie=> { %>
+            <a href="/info/<%=serie.media_type%>/<%= serie.id %>">
+                <div class="movie">
+                    <img src="https://image.tmdb.org/t/p/w500<%= serie.poster_path %>" alt="movie poster">
+                </div>
+            </a>
+            <% }); %>
+
+    </div>
+
+    <script src="/scripts/server.js"></script>
+    <script src="/scripts/main.js"></script>
+</body>
+
+</html>
