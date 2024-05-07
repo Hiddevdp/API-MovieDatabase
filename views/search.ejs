@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trending Movies and tv shows</title>
+    <title>search</title>
     <link rel="stylesheet" href="/styles/style.css">
     <link rel="shortcut icon" href="#">
 </head>
@@ -31,14 +31,13 @@
         </a>
     </div>
     <div id="list">
-        <% series.forEach(serie=> { %>
-            <a href="/info/<%=serie.media_type%>/<%= serie.id %>">
+        <% results.forEach(result=> { %>
+            <a href="/info/<%=result.media_type || result.type%>/<%= result.id %>">
                 <div class="movie">
-                    <img src="https://image.tmdb.org/t/p/w500<%= serie.poster_path %>" alt="movie poster">
+                    <img src="https://image.tmdb.org/t/p/w500<%= result.poster_path %>" alt="movie poster">
                 </div>
             </a>
             <% }); %>
-
     </div>
 
     <script src="/scripts/server.js"></script>

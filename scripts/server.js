@@ -71,6 +71,26 @@ app.get("/info/:type/:id", async (req, res) => {
   res.render("details", { details: details });
 }); //route voor info van specifieke film/serie
 
+app.get("/search", async (req, res) => {
+  const query = req.query.q;
+  if (!query) {
+    return res.status(400).send({ error: 'Missing query parameter "q"' });
+  }
+
+  try {
+    const results = await searchMoviesOrSeries(query); // Assuming you have a function to search movies or series
+    res.render("search", { results });
+  } catch (error) {
+    console.error(
+      `An error occurred while trying to search for "${query}":`,
+      error
+    );
+    res
+      .status(500)
+      .send({ error: "An error occurred while trying to perform the search" });
+  }
+});
+
 async function fetchDataForType(type) {
   //functie voor het ophalen van array van films/series/alles
   try {
@@ -108,6 +128,32 @@ async function fetchDetailsForId(type, id) {
 
   const details = await response.json();
   return details;
+}
+
+async function searchMoviesOrSeries(query) {
+  try {
+    const movieResponse = await fetch(
+      `https://api.themoviedb.org/3/search/movie?api_key=${
+        process.env.API_KEY
+      }&query=${encodeURIComponent(query)}`
+    );
+    const movieData = await movieResponse.json();
+
+    const tvResponse = await fetch(
+      `https://api.themoviedb.org/3/search/tv?api_key=${
+        process.env.API_KEY
+      }&query=${encodeURIComponent(query)}`
+    );
+    const tvData = await tvResponse.json();
+
+    return [...movieData.results, ...tvData.results];
+  } catch (error) {
+    console.error(
+      `An error occurred while trying to search for "${query}":`,
+      error
+    );
+    throw error;
+  }
 }
 
 app.listen(3000, () => console.log("Started on http://localhost:3000"));
