@@ -78,7 +78,8 @@ app.get("/search", async (req, res) => {
   }
 
   try {
-    const results = await searchMoviesOrSeries(query); // Assuming you have a function to search movies or series
+    const results = await searchMoviesOrSeries(query);
+    console.log(results);
     res.render("search", { results });
   } catch (error) {
     console.error(
@@ -138,6 +139,10 @@ async function searchMoviesOrSeries(query) {
       }&query=${encodeURIComponent(query)}`
     );
     const movieData = await movieResponse.json();
+    const movies = movieData.results.map((movie) => ({
+      ...movie,
+      media_type: "movie",
+    }));
 
     const tvResponse = await fetch(
       `https://api.themoviedb.org/3/search/tv?api_key=${
@@ -145,8 +150,12 @@ async function searchMoviesOrSeries(query) {
       }&query=${encodeURIComponent(query)}`
     );
     const tvData = await tvResponse.json();
+    const tvShows = tvData.results.map((tvShow) => ({
+      ...tvShow,
+      media_type: "tv",
+    }));
 
-    return [...movieData.results, ...tvData.results];
+    return [...movies, ...tvShows];
   } catch (error) {
     console.error(
       `An error occurred while trying to search for "${query}":`,

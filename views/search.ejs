@@ -32,7 +32,7 @@
     </div>
     <div id="list">
         <% results.forEach(result=> { %>
-            <a href="/info/<%=result.media_type || result.type%>/<%= result.id %>">
+            <a href="/info/<%=result.media_type%>/<%= result.id %>">
                 <div class="movie">
                     <img src="https://image.tmdb.org/t/p/w500<%= result.poster_path %>" alt="movie poster">
                 </div>
