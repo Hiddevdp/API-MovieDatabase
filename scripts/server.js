@@ -78,7 +78,6 @@ app.get("/search", async (req, res) => {
 
   try {
     const results = await searchMoviesOrSeries(query);
-    console.log(results);
     res.render("search", { results });
   } catch (error) {
     console.error(
