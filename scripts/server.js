@@ -67,7 +67,6 @@ app.get("/info/:type/:id", async (req, res) => {
   const id = req.params.id;
   const type = req.params.type;
   const details = await fetchDetailsForId(type, id); //haal de details van specifieke film/serie op
-  console.log(details);
   res.render("details", { details: details });
 }); //route voor info van specifieke film/serie
 
