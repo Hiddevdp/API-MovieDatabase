@@ -78,7 +78,7 @@ Vervolgens voegde ik een event listener toe aan dit element. Ik wilde dat er iet
 
 Binnen de event handler controleerde ik of de Web Share API beschikbaar was in de browser van de gebruiker. Ik wist dat niet alle browsers deze API ondersteunen, dus ik gebruikte een if-statement om te controleren of navigator.share bestond.
 
-Als de Web Share API beschikbaar was, probeerde ik de share methode aan te roepen met een object dat de titel, tekst en URL bevatte die ik wilde delen. Ik haalde deze waarden op uit de inhoud van de <h1> en <p> elementen op mijn pagina en de huidige URL. Ik gebruikte een try-catch blok om eventuele fouten op te vangen die optraden tijdens het delen.
+Als de Web Share API beschikbaar was, probeerde ik de share methode aan te roepen met een object dat de titel, tekst en URL bevatte die ik wilde delen. Ik haalde deze waarden op uit de inhoud van de h1 en p elementen op mijn pagina en de huidige URL. Ik gebruikte een try-catch blok om eventuele fouten op te vangen die optraden tijdens het delen.
 
 Als er een fout optrad tijdens het delen, logde ik deze naar de console met console.error. Dit hielp me om eventuele problemen te identificeren.
 
